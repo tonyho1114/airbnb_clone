@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/dist/client/router'
 import {format} from 'date-fns'
 import InfoCard from '../components/InfoCard'
 
@@ -22,7 +22,7 @@ const search = ({searchResults}) => {
             setFormattedStartDate(format(new Date(startDate),"dd MMMM yy"))
             setFormattedEndDate(format(new Date(endDate),"dd MMMM yy"))
          }
-    }, [router.isReady]);
+    }, [router.isReady, router.query]);
 
   return (
     <div>
