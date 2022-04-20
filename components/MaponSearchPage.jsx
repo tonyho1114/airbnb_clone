@@ -22,55 +22,47 @@ const MaponSearchPage = ({searchResults}) => {
   return (
     <div>
       
-    <Map       
-      mapStyle={process.env.NEXT_PUBLIC_MAP_STYLE}
-      mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
-      {...viewPort}
-      style={{height: '100vh', width: '600px'}}
-      onMove={evt => setViewPort(evt.viewState)}
-    >
-      {searchResults.map(result=>(   
-        <div key={result.long}>   
-          {console.log(`long-search: ${result.long} lat-search:${result.lat}`)}
-          <Marker            
+      <Map
+        {...viewPort}
+        mapStyle={process.env.NEXT_PUBLIC_MAP_STYLE}
+        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+        style={{ height: "100vh", width: "600px" }}
+        onMove={(evt) => setViewPort(evt.viewState)}
+        onClick={() => setSelectedLocation(null)}
+      >
+        {searchResults.map((result, index) => (
+          <Marker
             longitude={result.long}
             latitude={result.lat}
-            style={{position:'absolute'}}
-            // offsetLeft={-20}
-            // offsetTop={-10}
+            style={{ position: "absolute" }}
+            key={index}
           >
-            <p 
-              role='img'
-              onClick={() => {if(result.lat !== undefined && result.long!==undefined){setSelectedLocation({lat: result.lat, long: result.long, title: result.title})}}}
-              className='cursor-pointer text-2xl animate-bounce'
-              aria-label='push-pin'
+            <p
+              role="img"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedLocation({ lat: result.lat, long: result.long, title: result.title });
+              }}
+              className="cursor-pointer text-2xl animate-bounce"
+              aria-label="push-pin"
             >
               📍
             </p>
-          </Marker>     
-          { selectedLocation?.long===result.long && (
+          </Marker>
+        ))}
+        {selectedLocation && (
           <Popup
-            anchor="top"      
-            longitude={Number(selectedLocation.long)}
-            latitude={Number(selectedLocation.lat)}
+            anchor="top"
+            longitude={selectedLocation.long}
+            latitude={selectedLocation.lat}
             closeOnClick={false}
-            // onClose={() => setSelectedLocation(null)}
-            closeButton={true}
+            closeButton={false}
+            closeOnMove={false}
           >
-            <div>
-              {console.log(`long-select: ${selectedLocation.long} lat-select:${selectedLocation.lat}`)}
-              {/* {'It Worked'} */}
-              {selectedLocation.title}
-            </div>
+            {selectedLocation.title}
           </Popup>
-          )}
-        </div>          
-      ))}
-
-
-
-
-    </Map>
+        )}
+      </Map>
     </div>
   )
 }
