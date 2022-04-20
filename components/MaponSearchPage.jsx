@@ -7,7 +7,7 @@ const MaponSearchPage = ({searchResults}) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   const coordinates = searchResults.map((result)=>({
-    longitude:result.long,
+    longitude: result.long,
     latitude: result.lat,
   }))
 
@@ -41,31 +41,32 @@ const MaponSearchPage = ({searchResults}) => {
           >
             <p 
               role='img'
-              onClick={() => {if(result.lat !== undefined && result.long!==undefined){setSelectedLocation({lat: result.lat, long: result.long})}}}
+              onClick={() => {if(result.lat !== undefined && result.long!==undefined){setSelectedLocation({lat: result.lat, long: result.long, title: result.title})}}}
               className='cursor-pointer text-2xl animate-bounce'
               aria-label='push-pin'
             >
               📍
             </p>
           </Marker>     
+          { selectedLocation?.long===result.long && (
+          <Popup
+            anchor="top"      
+            longitude={Number(selectedLocation.long)}
+            latitude={Number(selectedLocation.lat)}
+            closeOnClick={false}
+            // onClose={() => setSelectedLocation(null)}
+            closeButton={true}
+          >
+            <div>
+              {console.log(`long-select: ${selectedLocation.long} lat-select:${selectedLocation.lat}`)}
+              {/* {'It Worked'} */}
+              {selectedLocation.title}
+            </div>
+          </Popup>
+          )}
         </div>          
       ))}
 
-      { selectedLocation && (
-      <Popup
-      //   onClose={()=>setSelectedLocation(null)} 
-      //   closeOnClick={true}     
-        anchor="top"      
-        longitude={Number(selectedLocation.long)}
-        latitude={Number(selectedLocation.lat)}
-      >
-        <div>
-          {console.log(`long-select: ${selectedLocation.long} lat-select:${selectedLocation.lat}`)}
-          {'It Worked'}
-          {/* {selectedLocation.title} */}
-        </div>
-      </Popup>
-      )}
 
 
 
