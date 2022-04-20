@@ -12,6 +12,7 @@ const progress = new ProgressBar({
 Router.events.on('routerChangeStart', progress.start);
 Router.events.on('routerChangeComplete', progress.finish);
 Router.events.on('routerChangeError', progress.finish);
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet"></link>
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />

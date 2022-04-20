@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import MaponSearchPage from '../components/MaponSearchPage'
 import { useRouter } from 'next/dist/client/router'
 import {format} from 'date-fns'
 import InfoCard from '../components/InfoCard'
@@ -11,9 +12,7 @@ const Search = ({searchResults}) => {
     const [formattedStartDate, setFormattedStartDate] = useState(format(new Date(),"dd MMMM yy"))
     const [formattedEndDate, setFormattedEndDate] = useState(format(new Date(),"dd MMMM yy"))
     
-    const {location, startDate, endDate, noOfGuests} = router.query
-    // const formattedStartDate = format(new Date(startDate),"dd MMMM yy")
-    // const formattedEndDate = format(new Date(endDate),"dd MMMM yy")
+    const {location, noOfGuests} = router.query
     const range =`${formattedStartDate}-${formattedEndDate}`
 
     useEffect(() => {
@@ -25,10 +24,10 @@ const Search = ({searchResults}) => {
     }, [router.isReady, router.query]);
 
   return (
-    <div>
+    <div >
         <Header placeholder={`${location} | ${range} | ${noOfGuests} guests`} />
 
-        <main>
+        <main className='flex'>
             <section className='flex-grow pt-14 px-6'>
                 <p className='text-xs'> 300+ stays - {range} - for {noOfGuests} guests</p>
                 <h1 className='text-3xl font-semibold mt-2 mb-6'> Stays in {location}</h1>
@@ -53,6 +52,10 @@ const Search = ({searchResults}) => {
                         />
                     ))}
                 </div>
+            </section>
+            {/* xl:min-w-[600px] */}
+            <section className='hidden xl:flex xl:flex-col xl:min-w-[600px]'>
+                <MaponSearchPage searchResults={searchResults}/>
             </section>
         </main>
 
